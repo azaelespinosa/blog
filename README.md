@@ -1,4 +1,22 @@
 ## A simple blog for learning purpose.
+
+##Technologies used here.
+- Spring Boot
+- Jpa
+- Thymeleaf
+- Markdown
+- Maven
+- AWS MySql
+- Junit / Spring Test / Mockito
+- Restful
+- Git
+- Java 8
+- Swagger
+- Spring Boot AOP
+
+## Features
+- CRUD Post
+
 ## Installation
 
 Requirements:
@@ -6,7 +24,6 @@ Requirements:
 - Java 1.8.
 - Maven.
 - MySQL (only for local use)
-- Git
  > The database is already configured in **AWS**
 - Local server Apache Tomcat 8.0.
 
