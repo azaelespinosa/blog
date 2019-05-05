@@ -1,10 +1,12 @@
 package com.blog.service.impl;
 
+import com.blog.aspects.Time;
 import com.blog.dto.CommentDto;
 import com.blog.common.exceptions.CustomException;
 import com.blog.common.services.BaseService;
 import com.blog.model.CommentEntity;
 import com.blog.repository.CommentRepository;
+import com.blog.repository.PostRepository;
 import com.blog.repository.UserRepository;
 import com.blog.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,10 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PostRepository postRepository;
+
+    @Time
     public CommentDto findByCommentId(Long id){
         log.info("Method findByCommentId.");
         try {
@@ -32,18 +38,21 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
         }
     }
 
+    @Time
     public List<CommentDto> findCommentsByPostId(Long postId){
         log.info("Method findCommentsByPostId.");
         return convertUtils.convert(repository.findByPostIdOrderByModifiedAt(postId) , CommentDto.class);
 
     }
 
+    @Time
     public List<CommentDto> findCommentsByUserId(Long userId){
         log.info("Method findCommentsByUserId.");
         return convertUtils.convert(repository.findByUserIdOrderByModifiedAt(userId) , CommentDto.class);
 
     }
 
+    @Time
     @Transactional
     public CommentDto createComment(CommentDto dto){
 
@@ -51,8 +60,10 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
 
         Objects.requireNonNull(dto.getCommentText(),"Please type a comment text.");
         Objects.requireNonNull(dto.getUserId(),"Please type a valid user id.");
+        Objects.requireNonNull(dto.getPostId(),"Please type a valid post id.");
 
-        Optional.ofNullable( userRepository.getOne(dto.getId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        Optional.ofNullable( userRepository.getOne(dto.getUserId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        Optional.ofNullable( postRepository.getOne(dto.getPostId())).orElseThrow(() -> new CustomException("The post doesn't exist."));
 
         try {
             return create(dto,CommentDto.class);
@@ -62,6 +73,7 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
         }
     }
 
+    @Time
     @Transactional
     public CommentDto updateComment(CommentDto dto){
 
@@ -79,6 +91,7 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
         }
     }
 
+    @Time
     public void softDeleteComment(Long id){
 
         log.info("Method softDeleteComment.");

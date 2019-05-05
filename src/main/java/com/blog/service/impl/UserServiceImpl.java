@@ -96,11 +96,11 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
 
         UserEntity user = Optional.ofNullable( repository.getOne(id)).orElseThrow(() -> new CustomException("The user doesn't exist."));
 
-        if(Optional.ofNullable(postRepository.findByUserIdOrderByModifiedAt(id)).map(l -> !l.isEmpty()).orElse(false)) {
+        if(Optional.ofNullable(postRepository.findByUserIdOrderByModifiedAt(user.getId())).map(l -> !l.isEmpty()).orElse(false)) {
             new CustomException("You can't delete these user, the user have active posts.");
         }
 
-        if(Optional.ofNullable(commentRepository.findByUserIdOrderByModifiedAt(id)).map(l -> !l.isEmpty()).orElse(false)) {
+        if(Optional.ofNullable(commentRepository.findByUserIdOrderByModifiedAt(user.getId())).map(l -> !l.isEmpty()).orElse(false)) {
             new CustomException("You can't delete these user, the user have active comments.");
         }
 

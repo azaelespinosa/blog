@@ -1,9 +1,12 @@
 package com.blog;
 
 import com.blog.model.UserEntity;
+import com.blog.repository.CommentRepository;
+import com.blog.repository.PostRepository;
 import com.blog.repository.UserRepository;
 import com.blog.service.UserService;
 import com.blog.service.impl.UserServiceImpl;
+import com.blog.utils.ConvertUtil;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
-@Ignore
+
 @RunWith(SpringRunner.class)
 public class UserRepositoryIntegrationMockTest {
 
@@ -28,6 +31,7 @@ public class UserRepositoryIntegrationMockTest {
         public UserService userService() {
             return new UserServiceImpl();
         }
+
     }
 
     @Autowired
@@ -35,6 +39,15 @@ public class UserRepositoryIntegrationMockTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private CommentRepository commentRepository;
+
+    @MockBean
+    private PostRepository postRepository;
+
+    @MockBean
+    private ConvertUtil convertUtil;
 
     @Before
     public void setUp() {
@@ -45,7 +58,7 @@ public class UserRepositoryIntegrationMockTest {
 
     @Test
     public void whenValidName_thenUserShouldBeFound() {
-        String name = "alex";
+        String name = "Alex";
         UserEntity found = userService.findUserByUserName(name);
 
         assertEquals(found.getUsername(),name);

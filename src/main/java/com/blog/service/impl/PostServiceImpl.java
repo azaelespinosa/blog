@@ -49,7 +49,7 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
         Objects.requireNonNull(dto.getPostText(),"Please type a post text.");
         Objects.requireNonNull(dto.getUserId(),"Please type a valid user id.");
 
-        Optional.ofNullable( userRepository.getOne(dto.getId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        Optional.ofNullable( userRepository.getOne(dto.getUserId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
 
         try {
             return create(dto,PostDto.class);
@@ -66,7 +66,7 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
 
         Objects.requireNonNull(dto.getId(),"Please type a valid id.");
 
-        Optional.ofNullable( userRepository.getOne(dto.getId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        Optional.ofNullable( userRepository.getOne(dto.getUserId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
 
         try {
             return update(dto.getId(),dto,PostDto.class);

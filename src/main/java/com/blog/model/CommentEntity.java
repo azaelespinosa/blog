@@ -2,14 +2,8 @@ package com.blog.model;
 
 import com.blog.common.entities.BaseEntity;
 import lombok.*;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Builder
 @NoArgsConstructor
@@ -22,16 +16,16 @@ public class CommentEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "COMMENT_ID", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "COMMENT_TEXT")
+    @Column(name = "COMMENT_TEXT", nullable = false)
     private String commentText;
 
-    @Column(name = "POST_ID")
+    @Column(name = "POST_ID", nullable = false)
     private Long postId;
 
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID", nullable = false)
     private Long userId;
 
 

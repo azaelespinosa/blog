@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api(description = "User")
+@Api(description = "User Controller")
 @RequestMapping("user")
 public class UserController {
 

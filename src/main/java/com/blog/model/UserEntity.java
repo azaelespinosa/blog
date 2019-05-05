@@ -4,15 +4,8 @@ import com.blog.common.entities.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -27,13 +20,13 @@ public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "USER_ID", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", nullable = false)
     private String username;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
     @OneToMany

@@ -41,5 +41,5 @@ Requirements:
 
 
 ```mermaid
-The project have Swagger at port 8081
+Swagger -> http://localhost:8081/BlogDemo/swagger-ui.html#/
 ```

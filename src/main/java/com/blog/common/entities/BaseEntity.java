@@ -16,16 +16,16 @@ import java.util.UUID;
 @Data
 public abstract class BaseEntity implements Serializable {
 
-    @Column(name = "SOFT_DELETE")
+    @Column(name = "SOFT_DELETE" ,nullable = false)
     private boolean softDelete;
 
-    @Column(name = "MODIFIED_AT")
+    @Column(name = "MODIFIED_AT", nullable = false)
     private Timestamp modifiedAt;
 
-    @Column(name = "CREATED_AT",updatable = false)
+    @Column(name = "CREATED_AT",nullable = false, updatable = false)
     private Timestamp createdAt;
 
-    @Column(name = "UUID",updatable = false)
+    @Column(name = "UUID",nullable = false, updatable = false)
     private String uuid;
 
     protected BaseEntity() {

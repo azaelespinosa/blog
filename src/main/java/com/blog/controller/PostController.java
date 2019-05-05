@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api(description = "Post")
+@Api(description = "Post Controller")
 @RequestMapping("post")
 public class PostController {
 
