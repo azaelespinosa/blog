@@ -1,5 +1,5 @@
-##A simple blog for learning purpose.
-##Installation
+## A simple blog for learning purpose.
+## Installation
 
 Requirements:
 
