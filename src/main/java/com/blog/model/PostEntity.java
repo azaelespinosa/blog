@@ -4,6 +4,7 @@ import com.blog.common.entities.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "POST")
+@Where(clause = "SOFT_DELETE = false")
 public class PostEntity extends BaseEntity {
 
     @Id
@@ -33,7 +35,7 @@ public class PostEntity extends BaseEntity {
 
     @OneToMany
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "COMMENT_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "POST_ID",referencedColumnName = "POST_ID",insertable = false, updatable = false)
     private List<CommentEntity> comments;
 
     @OneToOne

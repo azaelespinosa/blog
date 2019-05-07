@@ -8,5 +8,4 @@ public interface UserRepository extends BaseRepository<UserEntity,Long> {
     UserEntity findByUsernameAndEmail(String userName, String email);
 
     UserEntity findByUsername(String name);
-
 }

@@ -2,20 +2,23 @@ package com.blog.service.impl;
 
 import com.blog.common.exceptions.CustomException;
 import com.blog.common.services.BaseService;
+import com.blog.dto.RoleDto;
 import com.blog.dto.UserDto;
+import com.blog.model.RoleEntity;
 import com.blog.model.UserEntity;
 import com.blog.repository.CommentRepository;
 import com.blog.repository.PostRepository;
 import com.blog.repository.UserRepository;
+import com.blog.service.RoleRepository;
 import com.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
 
 @Slf4j
 @Service
@@ -26,6 +29,9 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public UserDto findByUserId(Long id){
         log.info("Method findByUserId.");
@@ -55,12 +61,18 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
 
         Objects.requireNonNull(dto.getUsername(), "Please type a username.");
         Objects.requireNonNull(dto.getEmail(), "Please type an email.");
+        Objects.requireNonNull(dto.getRoleId(), "Please type a roleId.");
 
-        if(Optional.ofNullable( findUserByUserNameAndEmail(dto.getUsername(),dto.getEmail())).map(UserEntity::getId).map(l -> l > 0).orElse(false)){
-            new CustomException("The user already exist.");
+        UserEntity user = repository.findByUsernameAndEmail(dto.getUsername(),dto.getEmail());
+
+        if(Optional.ofNullable(user ).map(UserEntity::getId).map(l -> l != null).orElse(false)){
+            throw new CustomException("The user already exist.");
         }
 
+        roleRepository.findById(dto.getRoleId()).orElseThrow(() ->new CustomException("The role doesn't exist."));
+
         try {
+
             return create(dto,UserDto.class);
 
         }catch(Exception e){
@@ -73,12 +85,12 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
 
         log.info("Method updateUser.");
 
+        Objects.requireNonNull(dto.getId(), "Please type a valid id.");
         Objects.requireNonNull(dto.getUsername(), "Please type a username.");
         Objects.requireNonNull(dto.getEmail(), "Please type an email.");
+        Objects.requireNonNull(dto.getRoleId(), "Please type a roleId.");
 
-        if (Optional.ofNullable(findUserByUserNameAndEmail(dto.getUsername(), dto.getEmail())).map(UserEntity::getId).map(l -> l > 0).orElse(false)) {
-            new CustomException("The user already exist.");
-        }
+        roleRepository.findById(dto.getRoleId()).orElseThrow(() ->new CustomException("The role doesn't exist."));
 
         try {
             return update(dto.getId(), dto, UserDto.class);
@@ -90,18 +102,18 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
 
     }
 
-        public void softDeleteUser(Long id){
+    public void softDeleteUser(Long id){
 
         log.info("Method softDeletePost.");
 
-        UserEntity user = Optional.ofNullable( repository.getOne(id)).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        UserEntity user = repository.findById(id).orElseThrow(() ->new CustomException("The user doesn't exist."));
 
         if(Optional.ofNullable(postRepository.findByUserIdOrderByModifiedAt(user.getId())).map(l -> !l.isEmpty()).orElse(false)) {
-            new CustomException("You can't delete these user, the user have active posts.");
+            throw new CustomException("You can't delete these user, the user have active posts.");
         }
 
         if(Optional.ofNullable(commentRepository.findByUserIdOrderByModifiedAt(user.getId())).map(l -> !l.isEmpty()).orElse(false)) {
-            new CustomException("You can't delete these user, the user have active comments.");
+            throw new CustomException("You can't delete these user, the user have active comments.");
         }
 
         try {
@@ -113,8 +125,30 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
             throw new CustomException("Something happened during delete :"+id);
         }
 
-
     }
 
+    @Transactional
+    public RoleDto createRole(RoleDto dto){
+
+        log.info("Method createRole.");
+
+        Objects.requireNonNull(dto.getName(), "Please type a role name.");
+
+        if(Optional.ofNullable( roleRepository.findByName(dto.getName())).map(RoleEntity::getId).map(l -> l > 0).orElse(false)){
+            throw new CustomException("The role already exist.");
+        }
+
+        try {
+
+            return convertUtils.convert(roleRepository.save(RoleEntity.builder().name(dto.getName()).build()),RoleDto.class);
+
+        }catch(Exception e){
+            throw new CustomException("Something happened during creation.");
+        }
+    }
+
+    public List<RoleEntity> findAllRoles(){
+        return roleRepository.findAll();
+    }
 
 }

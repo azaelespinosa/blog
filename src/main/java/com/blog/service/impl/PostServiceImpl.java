@@ -5,6 +5,7 @@ import com.blog.common.services.BaseService;
 import com.blog.dto.PostDto;
 import com.blog.model.PostEntity;
 import com.blog.model.UserEntity;
+import com.blog.repository.CommentRepository;
 import com.blog.repository.PostRepository;
 import com.blog.repository.UserRepository;
 import com.blog.service.PostService;
@@ -24,6 +25,9 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public PostDto findByPostId(Long id){
         log.info("Method findByPostId.");
@@ -49,7 +53,7 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
         Objects.requireNonNull(dto.getPostText(),"Please type a post text.");
         Objects.requireNonNull(dto.getUserId(),"Please type a valid user id.");
 
-        Optional.ofNullable( userRepository.getOne(dto.getUserId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        userRepository.findById(dto.getUserId()).orElseThrow(() ->new CustomException("The user doesn't exist."));
 
         try {
             return create(dto,PostDto.class);
@@ -65,8 +69,11 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
         log.info("Method updatePost.");
 
         Objects.requireNonNull(dto.getId(),"Please type a valid id.");
+        Objects.requireNonNull(dto.getTitle(),"Please type a title.");
+        Objects.requireNonNull(dto.getPostText(),"Please type a post text.");
+        Objects.requireNonNull(dto.getUserId(),"Please type a valid user id.");
 
-        Optional.ofNullable( userRepository.getOne(dto.getUserId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
+        userRepository.findById(dto.getUserId()).orElseThrow(() ->new CustomException("The user doesn't exist."));
 
         try {
             return update(dto.getId(),dto,PostDto.class);
@@ -79,6 +86,10 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
     public void softDeletePost(Long id){
 
         log.info("Method softDeletePost.");
+
+        if(Optional.ofNullable(commentRepository.findByPostIdOrderByModifiedAt(id)).map(l -> !l.isEmpty()).orElse(false)) {
+            throw new CustomException("You can't delete these post, the user have active comments.");
+        }
 
         try {
 

@@ -62,8 +62,8 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
         Objects.requireNonNull(dto.getUserId(),"Please type a valid user id.");
         Objects.requireNonNull(dto.getPostId(),"Please type a valid post id.");
 
-        Optional.ofNullable( userRepository.getOne(dto.getUserId())).orElseThrow(() -> new CustomException("The user doesn't exist."));
-        Optional.ofNullable( postRepository.getOne(dto.getPostId())).orElseThrow(() -> new CustomException("The post doesn't exist."));
+        userRepository.findById(dto.getUserId()).orElseThrow(() ->new CustomException("The user doesn't exist."));
+        postRepository.findById(dto.getPostId()).orElseThrow(() ->new CustomException("The post doesn't exist."));
 
         try {
             return create(dto,CommentDto.class);
@@ -79,9 +79,10 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
 
         log.info("Method updateComment iniciando.");
 
-        if (Optional.ofNullable(dto).map(CommentDto::getCommentText).map(t -> t == null).orElse(true)) {
-            throw new RuntimeException("Please type a comment.");
-        }
+        Objects.requireNonNull(dto.getCommentText(),"Please type a comment text.");
+
+        userRepository.findById(dto.getUserId()).orElseThrow(() ->new CustomException("The user doesn't exist."));
+        postRepository.findById(dto.getPostId()).orElseThrow(() ->new CustomException("The post doesn't exist."));
 
         try {
             return update(dto.getId(),dto,CommentDto.class);

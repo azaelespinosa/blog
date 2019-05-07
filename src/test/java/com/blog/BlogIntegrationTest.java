@@ -22,7 +22,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Ignore
+
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
@@ -45,7 +45,7 @@ public class BlogIntegrationTest {
 
 	@Test
 	public void test1_whenFindByName_thenReturnUser() {
-		alex = UserEntity.builder().username("Alex").email("alex@myblog.com").build();
+		alex = UserEntity.builder().username("Alex").email("alex@myblog.com").roleId(1L).build();
 		entityManager.persist(alex);
 		entityManager.flush();
 		// when

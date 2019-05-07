@@ -1,6 +1,8 @@
 package com.blog.controller;
 
+import com.blog.dto.RoleDto;
 import com.blog.dto.UserDto;
+import com.blog.model.RoleEntity;
 import com.blog.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +41,18 @@ public class UserController {
     @ApiOperation(value = "Delete user.")
     public void softDeleteUser(@RequestParam Long id){
         userService.softDeleteUser(id);
+    }
+
+    @PostMapping(value = "/role")
+    @ApiOperation(value = "Create role.")
+    public RoleDto createRole(@RequestBody RoleDto dto){
+        return  userService.createRole(dto);
+    }
+
+    @GetMapping(value = "/roles")
+    @ApiOperation(value = "Find all roles.")
+    public List<RoleEntity> findAllRoles(){
+        return userService.findAllRoles();
     }
 
 }

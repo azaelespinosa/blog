@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +19,6 @@ public class PostDto implements Serializable {
     private String postText;
     private Long userId;
     private UserDto user;
+    private List<CommentDto> comments;
 
 }

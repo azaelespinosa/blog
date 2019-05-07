@@ -2,6 +2,7 @@ package com.blog.model;
 
 import com.blog.common.entities.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "COMMENT")
+@Where(clause = "SOFT_DELETE = false")
 public class CommentEntity extends BaseEntity {
 
     @Id
