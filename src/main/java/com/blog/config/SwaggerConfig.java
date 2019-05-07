@@ -27,7 +27,7 @@ public class SwaggerConfig {
     private ApiInfo metadata() {
         return new ApiInfoBuilder()
                 .title("Blog Demo Spring Boot API")
-                .description("List of all endpoints udes in API")
+                .description("List of all endpoints in API")
                 .version("1.0.0")
                 .build();
     }

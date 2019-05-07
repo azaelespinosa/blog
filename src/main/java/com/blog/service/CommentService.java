@@ -1,6 +1,8 @@
 package com.blog.service;
 
 import com.blog.dto.CommentDto;
+import com.blog.dto.CreateCommentDto;
+import com.blog.dto.UpdateCommentDto;
 
 import java.util.List;
 
@@ -12,9 +14,9 @@ public interface CommentService {
 
     List<CommentDto> findCommentsByUserId(Long postId);
 
-    CommentDto createComment(CommentDto dto);
+    CommentDto createComment(CreateCommentDto dto);
 
-    CommentDto updateComment(CommentDto dto);
+    CommentDto updateComment(UpdateCommentDto dto);
 
     void softDeleteComment(Long id);
 

@@ -2,7 +2,9 @@ package com.blog.service.impl;
 
 import com.blog.common.exceptions.CustomException;
 import com.blog.common.services.BaseService;
+import com.blog.dto.CreateUserDto;
 import com.blog.dto.RoleDto;
+import com.blog.dto.UpdateUserDto;
 import com.blog.dto.UserDto;
 import com.blog.model.RoleEntity;
 import com.blog.model.UserEntity;
@@ -55,7 +57,7 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
 
 
     @Transactional
-    public UserDto createUser(UserDto dto){
+    public UserDto createUser(CreateUserDto dto){
 
         log.info("Method createUser.");
 
@@ -81,7 +83,7 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
     }
 
     @Transactional
-    public UserDto updateUser(UserDto dto) {
+    public UserDto updateUser(UpdateUserDto dto) {
 
         log.info("Method updateUser.");
 

@@ -1,6 +1,8 @@
 package com.blog.service;
 
+import com.blog.dto.CreateUserDto;
 import com.blog.dto.RoleDto;
+import com.blog.dto.UpdateUserDto;
 import com.blog.dto.UserDto;
 import com.blog.model.RoleEntity;
 import com.blog.model.UserEntity;
@@ -13,9 +15,9 @@ public interface UserService {
 
     UserEntity findUserByUserName(String userName);
 
-    UserDto createUser(UserDto dto);
+    UserDto createUser(CreateUserDto dto);
 
-    UserDto updateUser(UserDto dto);
+    UserDto updateUser(UpdateUserDto dto);
 
     void softDeleteUser(Long id);
 

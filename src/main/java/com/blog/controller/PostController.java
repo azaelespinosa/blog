@@ -1,6 +1,8 @@
 package com.blog.controller;
 
+import com.blog.dto.CreatePostDto;
 import com.blog.dto.PostDto;
+import com.blog.dto.UpdatePostDto;
 import com.blog.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,13 +34,13 @@ public class PostController {
 
     @PostMapping
     @ApiOperation(value = "Create post.")
-    public PostDto createPost(@RequestBody PostDto dto){
+    public PostDto createPost(@RequestBody CreatePostDto dto){
         return  postService.createPost(dto);
     }
 
     @PutMapping
     @ApiOperation(value = "Update post.")
-    public PostDto updatePost(@RequestBody PostDto dto){
+    public PostDto updatePost(@RequestBody UpdatePostDto dto){
         return  postService.updatePost(dto);
     }
 

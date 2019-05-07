@@ -4,6 +4,8 @@ import com.blog.aspects.Time;
 import com.blog.dto.CommentDto;
 import com.blog.common.exceptions.CustomException;
 import com.blog.common.services.BaseService;
+import com.blog.dto.CreateCommentDto;
+import com.blog.dto.UpdateCommentDto;
 import com.blog.model.CommentEntity;
 import com.blog.repository.CommentRepository;
 import com.blog.repository.PostRepository;
@@ -54,7 +56,7 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
 
     @Time
     @Transactional
-    public CommentDto createComment(CommentDto dto){
+    public CommentDto createComment(CreateCommentDto dto){
 
         log.info("Method createComment.");
 
@@ -75,7 +77,7 @@ public class CommentServiceImpl extends BaseService<CommentRepository,CommentEnt
 
     @Time
     @Transactional
-    public CommentDto updateComment(CommentDto dto){
+    public CommentDto updateComment(UpdateCommentDto dto){
 
         log.info("Method updateComment iniciando.");
 

@@ -46,3 +46,10 @@ Requirements:
 ```mermaid
 Swagger -> http://localhost:8081/swagger-ui.html#/
 ```
+
+```mermaid
+Flow chart
+A[Create a Role] --> B[Create a new User]
+B --> C[Create a Post]
+C --> D[Create a Comment]
+```

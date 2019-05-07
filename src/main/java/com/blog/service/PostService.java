@@ -1,6 +1,8 @@
 package com.blog.service;
 
+import com.blog.dto.CreatePostDto;
 import com.blog.dto.PostDto;
+import com.blog.dto.UpdatePostDto;
 
 import java.util.List;
 
@@ -10,9 +12,9 @@ public interface PostService {
 
     List<PostDto> findPostsByUserId(Long userId);
 
-    PostDto createPost(PostDto dto);
+    PostDto createPost(CreatePostDto dto);
 
-    PostDto updatePost(PostDto dto);
+    PostDto updatePost(UpdatePostDto dto);
 
     void softDeletePost(Long id);
 

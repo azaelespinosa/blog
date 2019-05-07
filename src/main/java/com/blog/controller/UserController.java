@@ -1,6 +1,8 @@
 package com.blog.controller;
 
+import com.blog.dto.CreateUserDto;
 import com.blog.dto.RoleDto;
+import com.blog.dto.UpdateUserDto;
 import com.blog.dto.UserDto;
 import com.blog.model.RoleEntity;
 import com.blog.service.UserService;
@@ -27,13 +29,13 @@ public class UserController {
 
     @PostMapping
     @ApiOperation(value = "Create user.")
-    public UserDto createUser(@RequestBody UserDto dto){
+    public UserDto createUser(@RequestBody CreateUserDto dto){
         return  userService.createUser(dto);
     }
 
     @PutMapping
     @ApiOperation(value = "Update user.")
-    public UserDto updateUser(@RequestBody UserDto dto){
+    public UserDto updateUser(@RequestBody UpdateUserDto dto){
         return  userService.updateUser(dto);
     }
 
@@ -41,18 +43,6 @@ public class UserController {
     @ApiOperation(value = "Delete user.")
     public void softDeleteUser(@RequestParam Long id){
         userService.softDeleteUser(id);
-    }
-
-    @PostMapping(value = "/role")
-    @ApiOperation(value = "Create role.")
-    public RoleDto createRole(@RequestBody RoleDto dto){
-        return  userService.createRole(dto);
-    }
-
-    @GetMapping(value = "/roles")
-    @ApiOperation(value = "Find all roles.")
-    public List<RoleEntity> findAllRoles(){
-        return userService.findAllRoles();
     }
 
 }

@@ -1,6 +1,8 @@
 package com.blog.controller;
 
 import com.blog.dto.CommentDto;
+import com.blog.dto.CreateCommentDto;
+import com.blog.dto.UpdateCommentDto;
 import com.blog.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,13 +40,13 @@ public class CommentController {
 
     @PostMapping
     @ApiOperation(value = "Create comment.")
-    public CommentDto createComment(@RequestBody CommentDto dto){
+    public CommentDto createComment(@RequestBody CreateCommentDto dto){
         return  commentService.createComment(dto);
     }
 
     @PutMapping
     @ApiOperation(value = "Update comment.")
-    public CommentDto updateComment(@RequestBody CommentDto dto){
+    public CommentDto updateComment(@RequestBody UpdateCommentDto dto){
         return  commentService.updateComment(dto);
     }
 

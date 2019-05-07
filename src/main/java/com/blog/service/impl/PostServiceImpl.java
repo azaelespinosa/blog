@@ -2,7 +2,9 @@ package com.blog.service.impl;
 
 import com.blog.common.exceptions.CustomException;
 import com.blog.common.services.BaseService;
+import com.blog.dto.CreatePostDto;
 import com.blog.dto.PostDto;
+import com.blog.dto.UpdatePostDto;
 import com.blog.model.PostEntity;
 import com.blog.model.UserEntity;
 import com.blog.repository.CommentRepository;
@@ -45,7 +47,7 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
     }
 
     @Transactional
-    public PostDto createPost(PostDto dto){
+    public PostDto createPost(CreatePostDto dto){
 
         log.info("Method createPost.");
 
@@ -64,7 +66,7 @@ public class PostServiceImpl extends BaseService<PostRepository,PostEntity> impl
     }
 
     @Transactional
-    public PostDto updatePost(PostDto dto){
+    public PostDto updatePost(UpdatePostDto dto){
 
         log.info("Method updatePost.");
 
