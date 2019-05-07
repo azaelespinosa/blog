@@ -48,8 +48,8 @@ Swagger -> http://localhost:8081/swagger-ui.html#/
 ```
 
 ```mermaid
-Flow chart
-A[Create a Role] --> B[Create a new User]
-B --> C[Create a Post]
-C --> D[Create a Comment]
+A[Create a Role]
+B[Create a New User]
+C[Create a Post]
+D[Create a Comment]
 ```
