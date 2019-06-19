@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import com.blog.aspects.Cacheable;
 import com.blog.dto.CreateUserDto;
 import com.blog.dto.RoleDto;
 import com.blog.dto.UpdateUserDto;
@@ -25,6 +26,12 @@ public class UserController {
     @ApiOperation(value = "Find user by id.")
     public UserDto findByUserId(@RequestParam Long id){
         return userService.findByUserId(id);
+    }
+
+    @GetMapping(value = "/all")
+    @ApiOperation(value = "Find all users.")
+    public List<UserDto> findAllUsers(){
+        return userService.findAllUsers();
     }
 
     @PostMapping

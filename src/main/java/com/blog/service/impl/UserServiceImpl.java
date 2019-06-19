@@ -1,5 +1,6 @@
 package com.blog.service.impl;
 
+import com.blog.aspects.Cacheable;
 import com.blog.common.exceptions.CustomException;
 import com.blog.common.services.BaseService;
 import com.blog.dto.CreateUserDto;
@@ -42,6 +43,17 @@ public class UserServiceImpl extends BaseService<UserRepository,UserEntity> impl
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Cacheable
+    public List<UserDto> findAllUsers(){
+        log.info("Method findAllUsers.");
+        try {
+            return findAll(UserDto.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private UserEntity findUserByUserNameAndEmail(String userName, String email){

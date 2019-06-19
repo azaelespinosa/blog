@@ -15,6 +15,8 @@ public interface UserService {
 
     UserEntity findUserByUserName(String userName);
 
+    List<UserDto> findAllUsers();
+
     UserDto createUser(CreateUserDto dto);
 
     UserDto updateUser(UpdateUserDto dto);
