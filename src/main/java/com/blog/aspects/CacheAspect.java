@@ -1,13 +1,18 @@
 package com.blog.aspects;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,8 +24,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class CacheAspect {
 
+    @Autowired
+    private Environment env;
 
     private Map<String, Object> cache;
+
+    private Map<String, Long> timeMap = new HashMap<String, Long>();
+
+    private final String EXPIRE_TIME = "expireTime";
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss:SSS");
 
     public CacheAspect() {
         cache = new HashMap<String, Object>();
@@ -35,8 +48,7 @@ public class CacheAspect {
     }
 
     @Around("cache()")
-    public Object aroundCachedMethods(ProceedingJoinPoint thisJoinPoint)
-            throws Throwable {
+    public Object aroundCachedMethods(ProceedingJoinPoint thisJoinPoint)  throws Throwable {
         log.debug("Execution of Cacheable method catched");
 
         // generate the key under which cached value is stored
@@ -63,13 +75,34 @@ public class CacheAspect {
         if (result == null) {
             log.debug("Result not yet cached.");
             result = thisJoinPoint.proceed();
-            log.info("Storing "+ thisJoinPoint.getSignature().getName() +" value '" + result + "' to cache");
+            log.info("Storing "+ thisJoinPoint.getSignature().getName() +" values '" + result + "' to cache");
             cache.put(key, result);
+            cacheExpiration();
         } else {
-            log.info("Result '" + result + "' was found in cache");
+            log.info("Object was found in cache -> " + result);
+            cleanCache();
         }
 
         return result;
     }
+
+    public void cacheExpiration() {
+        Date date = new Date();
+        timeMap.put(EXPIRE_TIME, date.getTime());
+    }
+
+    private void cleanCache() {
+        int expiryInMillis	 = Integer.parseInt(env.getProperty("cache.expiration"));
+        long currentTime = new Date().getTime();
+
+        for (Map.Entry<String,Long> entry : timeMap.entrySet()){
+            if (currentTime > (timeMap.get(entry.getKey()) + expiryInMillis)) {
+                timeMap.remove(entry.getKey());
+                cache.clear();
+                log.info("Removing cache : currentTime : " + sdf.format(new Date()) + " : " + entry.getKey() + " -> " + sdf.format(new Date(entry.getValue())) );
+            }
+        }
+    }
+
 
 }
